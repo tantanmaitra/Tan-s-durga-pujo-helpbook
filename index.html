@@ -1,36 +1,135 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tan's Durga Pujo Helpbook</title>
-  <style>
-    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-    h1 { color: #b22222; }
-    #countdown { font-size: 2em; color: #ff4500; }
-  </style>
+<meta charset="UTF-8">
+<title>Durga Puja Countdown</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Noto Serif Bengali', serif;
+        background: linear-gradient(to bottom, #b30000, #ffcc66);
+        overflow-x: hidden;
+        color: #fff;
+        text-align: center;
+    }
+    header {
+        padding: 20px;
+        position: relative;
+    }
+    header img {
+        max-width: 250px;
+        animation: glow 2s infinite alternate;
+    }
+    @keyframes glow {
+        from { filter: drop-shadow(0 0 5px gold); }
+        to { filter: drop-shadow(0 0 20px gold); }
+    }
+    .countdown {
+        font-size: 3em;
+        font-weight: bold;
+        margin: 20px 0;
+        background: rgba(0,0,0,0.4);
+        display: inline-block;
+        padding: 15px 30px;
+        border-radius: 15px;
+    }
+    .side {
+        position: fixed;
+        bottom: 0;
+        width: 200px;
+    }
+    .left {
+        left: 0;
+    }
+    .right {
+        right: 0;
+    }
+    /* Petals animation */
+    .petal {
+        position: fixed;
+        top: -50px;
+        width: 30px;
+        height: 30px;
+        background-image: url('https://i.postimg.cc/jd14zQwX/petal.png');
+        background-size: cover;
+        animation: fall linear infinite;
+    }
+    @keyframes fall {
+        0% { transform: translateY(-50px) rotate(0deg); }
+        100% { transform: translateY(110vh) rotate(360deg); }
+    }
+    /* Mute button */
+    #muteBtn {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        background: gold;
+        color: black;
+        padding: 8px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        z-index: 10;
+    }
+</style>
 </head>
 <body>
-  <h1>Tan's Durga Pujo Helpbook</h1>
-  <p>Countdown to Durga Pujo:</p>
-  <div id="countdown"></div>
 
-  <script>
-    const eventDate = new Date("October 10, 2025 00:00:00").getTime();
-    const timer = setInterval(function() {
-      const now = new Date().getTime();
-      const distance = eventDate - now;
-      if (distance < 0) {
-        clearInterval(timer);
-        document.getElementById("countdown").innerHTML = "Shubho Bijoya!";
-      } else {
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        document.getElementById("countdown").innerHTML =
-          days + "d " + hours + "h " + minutes + "m " + seconds + "s";
-      }
+<div id="muteBtn">🔊 Mute</div>
+
+<header>
+    <img src="https://i.postimg.cc/SKstKDFX/durga-ma-cartoon.png" alt="Durga Ma">
+    <h1>দুর্গা পূজো কাউন্টডাউন</h1>
+</header>
+
+<div class="countdown" id="countdown"></div>
+
+<img class="side left" src="https://i.postimg.cc/L6Z4CwKM/dhaki.gif" alt="Dhaki">
+<img class="side right" src="https://i.postimg.cc/g0Z2Rjj0/dhunuchi.gif" alt="Dhunuchi">
+
+<audio id="dhakAudio" autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2023/10/21/audio_8f57dd08d4.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    // Countdown timer
+    const eventDate = new Date("October 9, 2025 00:00:00").getTime();
+    const countdownEl = document.getElementById("countdown");
+
+    setInterval(() => {
+        const now = new Date().getTime();
+        const diff = eventDate - now;
+        if (diff <= 0) {
+            countdownEl.innerHTML = "শুভ দুর্গা পূজা! 🎉";
+            return;
+        }
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        countdownEl.innerHTML = ${days} দিন ${hours} ঘন্টা ${minutes} মিনিট ${seconds} সেকেন্ড;
     }, 1000);
-  </script>
+
+    // Falling petals
+    function createPetal() {
+        const petal = document.createElement('div');
+        petal.classList.add('petal');
+        petal.style.left = Math.random() * 100 + "vw";
+        petal.style.animationDuration = 5 + Math.random() * 5 + "s";
+        document.body.appendChild(petal);
+        setTimeout(() => petal.remove(), 10000);
+    }
+    setInterval(createPetal, 300);
+
+    // Mute / Unmute
+    const audio = document.getElementById("dhakAudio");
+    const muteBtn = document.getElementById("muteBtn");
+    muteBtn.onclick = () => {
+        audio.muted = !audio.muted;
+        muteBtn.textContent = audio.muted ? "🔇 Unmute" : "🔊 Mute";
+    };
+</script>
+
 </body>
 </html>
