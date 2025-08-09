@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tan's Durga Pujo Helpbook</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+    h1 { color: #b22222; }
+    #countdown { font-size: 2em; color: #ff4500; }
+  </style>
+</head>
+<body>
+  <h1>Tan's Durga Pujo Helpbook</h1>
+  <p>Countdown to Durga Pujo:</p>
+  <div id="countdown"></div>
+
+  <script>
+    const eventDate = new Date("October 10, 2025 00:00:00").getTime();
+    const timer = setInterval(function() {
+      const now = new Date().getTime();
+      const distance = eventDate - now;
+      if (distance < 0) {
+        clearInterval(timer);
+        document.getElementById("countdown").innerHTML = "Shubho Bijoya!";
+      } else {
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        document.getElementById("countdown").innerHTML =
+          days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
